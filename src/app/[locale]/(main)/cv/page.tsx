@@ -6,8 +6,9 @@ import { CvView } from "@/views/cv/CvView";
 
 export const metadata: Metadata = { title: "CV" };
 
-export default async function CvPage({ params }: BasePageProps) {
-  await params;
+export default async function CvPage({ searchParams }: BasePageProps) {
+  const sp = await searchParams;
+  const hideAvatar = sp["no-avatar"] === "1";
 
   const [cv, contact, commonText] = await Promise.all([getMainCv(), getContact(), getCommonText()]);
 
@@ -19,5 +20,5 @@ export default async function CvPage({ params }: BasePageProps) {
     );
   }
 
-  return <CvView data={cv} contact={contact} commonText={commonText} />;
+  return <CvView data={cv} contact={contact} commonText={commonText} hideAvatar={hideAvatar} />;
 }
