@@ -37,4 +37,28 @@ describe("PrintButton", () => {
   it("renders without className prop without error", () => {
     expect(() => render(<PrintButton />)).not.toThrow();
   });
+
+  it("calls window.print() once per click across multiple clicks", async () => {
+    const user = userEvent.setup();
+    render(<PrintButton />);
+    const btn = screen.getByRole("button");
+    await user.click(btn);
+    await user.click(btn);
+    await user.click(btn);
+    expect(window.print).toHaveBeenCalledTimes(3);
+  });
+
+  it("does not include 'undefined' in className when prop is omitted", () => {
+    render(<PrintButton />);
+    const btn = screen.getByRole("button");
+    expect(btn.className).not.toContain("undefined");
+  });
+
+  it("triggers print on keyboard Enter key press", async () => {
+    const user = userEvent.setup();
+    render(<PrintButton />);
+    screen.getByRole("button").focus();
+    await user.keyboard("{Enter}");
+    expect(window.print).toHaveBeenCalledTimes(1);
+  });
 });
