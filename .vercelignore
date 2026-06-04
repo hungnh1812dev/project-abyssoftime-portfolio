@@ -14,6 +14,9 @@ coverage/
 .vscode/
 .claude/
 
-# ─── Env files (Vercel tự quản lý qua dashboard) ────────────────────────────
+# ─── Env files ────────────────────────────
 .env.local
 .env.*.local
+
+# ─── Local scripts files ────────────────────────────
+scripts/
