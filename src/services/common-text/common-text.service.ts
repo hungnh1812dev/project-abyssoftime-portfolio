@@ -6,7 +6,7 @@ export async function getCommonText(): Promise<CommonText | null> {
   const data = await graphqlApi.query<CommonTextData>({
     query: GET_COMMON_TEXT,
     mock: "common-text",
-    next: { revalidate: 3600 },
+    next: { revalidate: 600, tags: ["common-text"] },
   });
 
   return data.commonText ?? null;
