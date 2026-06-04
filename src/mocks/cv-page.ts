@@ -72,7 +72,7 @@ export const cvPageMock: CvPageQueryData = {
         name: "Professional Experience",
         items: [
           {
-            company: "Gameloft Company",
+            company: "GL Company",
             location: "Ho Chi Minh City",
             roles: [
               {
@@ -80,23 +80,50 @@ export const cvPageMock: CvPageQueryData = {
                 period: "Mar 2022 – 2026",
                 responsibilities:
                   "<ul><li>Development &amp; Mentorship: Handled the full frontend development lifecycle from initial setup to deployment, while mentoring team members through thorough code reviews and pair programming to elevate overall code quality.</li><li>Rendering &amp; Performance: Advanced web speed and optimized Core Web Vitals by strategically architecting data-fetching layouts across SSR, SSG/ISR, and CSR, minimizing page load times through dynamic imports and CDN caching.</li><li>UI/UX &amp; Compatibility: Delivered high-fidelity UI components and fluid animations with optimized rendering, ensuring flawless compatibility across strict environments including Edge 18, WebViews, and in-app browsers.</li><li>Advanced CMS Integration: Structured dynamic, multi-language Strapi CMS architectures and developed custom plugins for scheduled publishing, localized content cloning, and page previews.</li><li>CI/CD &amp; DevOps Automation: Configured and maintained CI/CD pipelines (GitLab CI) to automate build, test, and deployment workflows within Kubernetes environments.</li></ul>",
-                techStack: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "GraphQL", "Jest", "Kubernetes", "Strapi"],
-                projects: "High-traffic web platforms and marketing campaign systems",
+                techStack: [
+                  "React.js",
+                  "Next.js",
+                  "TypeScript",
+                  "Tailwind CSS",
+                  "GraphQL",
+                  "Jest",
+                  "Kubernetes",
+                  "Strapi",
+                ],
+                projects:
+                  "High-traffic web platforms and marketing campaign systems",
               },
               {
                 position: "Frontend Developer",
                 period: "Mar 2020 – Feb 2022",
                 responsibilities:
                   "<ul><li>Frontend Development: Developed and maintained high-performance web applications from complex Figma designs utilizing React.js, Next.js, and TypeScript.</li><li>Performance &amp; Upgrades: Upgraded core React versions and diagnosed critical production rendering issues to significantly enhance web performance and system stability.</li><li>CMS Integration: Built dynamic, CMS-driven pages using Strapi, empowering non-technical product teams to manage localized content efficiently.</li></ul>",
-                techStack: ["React", "Next.js", "JavaScript", "TypeScript", "Strapi"],
-                projects: "Web applications, CMS systems, and legacy platform modernization",
+                techStack: [
+                  "React",
+                  "Next.js",
+                  "JavaScript",
+                  "TypeScript",
+                  "Strapi",
+                ],
+                projects:
+                  "Web applications, CMS systems, and legacy platform modernization",
               },
               {
                 position: "Game Developer",
                 period: "Jan 2017 – Feb 2020",
                 responsibilities:
                   "<ul><li>Cross-Platform Game Dev: Developed and ported games across multiple platforms, optimizing production builds to ensure smooth performance and stability from low-end to high-end devices.</li><li>Graphics &amp; Rendering Optimization: Enhanced game rendering efficiency and hardware execution through targeted GPU and graphics-level optimizations.</li><li>Cross-Functional Delivery: Collaborated closely with cross-functional teams to deliver high-quality, responsive gaming experiences across diverse device configurations.</li></ul>",
-                techStack: ["C/C++", "Java", "JavaScript", "TypeScript", "OpenGL", "GLSL", "WebGL", "Android NDK", "Android SDK"],
+                techStack: [
+                  "C/C++",
+                  "Java",
+                  "JavaScript",
+                  "TypeScript",
+                  "OpenGL",
+                  "GLSL",
+                  "WebGL",
+                  "Android NDK",
+                  "Android SDK",
+                ],
                 projects: "AAA mobile and web-based games",
               },
             ],
@@ -107,27 +134,43 @@ export const cvPageMock: CvPageQueryData = {
         name: "Featured Projects",
         items: [
           {
-            name: "Disney Dreamlight Valley: Yearly Wrap-up Website",
+            name: "DDV: Yearly Wrap-up Website",
             description:
               "Built a core profile system supporting 3M+ users using SSR, ISR, and caching strategies to efficiently handle high traffic spikes of 10,000 users/minute. Reduced animation overhead by 45% and configured Kubernetes horizontal auto-scaling for frontend/CMS services, validating a 1,200 RPS capacity via k6 load testing.",
-            techStack: ["Next.js", "React.js", "TypeScript", "Tailwind CSS", "GSAP", "K6", "Kubernetes"],
+            techStack: [
+              "Next.js",
+              "React.js",
+              "TypeScript",
+              "Tailwind CSS",
+              "GSAP",
+              "K6",
+              "Kubernetes",
+            ],
             teamSize: 3,
             role: "Senior Frontend Developer & Reviewer",
-            link: "https://disneydreamlightvalley.com/wrap-up/global",
+            link: "https://test.com/wrap-up/global",
             responsitoryLink: undefined,
           },
           {
-            name: "Disney Dreamlight Valley",
+            name: "DDV",
             description:
               "Built a multi-language Strapi CMS using dynamic SSG/ISR rendering for rapid global content delivery, managing the full lifecycle via GitLab CI/CD and Kubernetes. Implemented high-performance UI animations for Expansion campaigns, driving a 559% increase in Day-1 sessions (from 12,671 to 70,851), validated via GTM and internal tracking.",
-            techStack: ["Next.js", "React.js", "TypeScript", "Tailwind CSS", "GraphQL", "GSAP", "Kubernetes"],
+            techStack: [
+              "Next.js",
+              "React.js",
+              "TypeScript",
+              "Tailwind CSS",
+              "GraphQL",
+              "GSAP",
+              "Kubernetes",
+            ],
             teamSize: 6,
             role: "Main PIC & Reviewer",
-            link: "https://disneydreamlightvalley.com/",
+            link: "https://test.com/",
             responsitoryLink: undefined,
           },
           {
-            name: "Gameloft Club (In-App-Browser)",
+            name: "GL Club (In-App-Browser)",
             description:
               "A core web application running exclusively within in-app browsers for account customization and real-time achievement tracking. Engineered the core frontend architecture optimized for strict in-app browser environments and authored comprehensive unit tests utilizing Vitest to ensure codebase stability. Diagnosed and resolved intricate multi-platform and webview-specific bugs identified during QA and live production to guarantee seamless device compatibility.",
             techStack: ["React.js", "TypeScript", "React Router"],
@@ -136,23 +179,40 @@ export const cvPageMock: CvPageQueryData = {
             responsitoryLink: undefined,
           },
           {
-            name: "Asphalt Legends",
+            name: "AL",
             description:
               "Developed responsive promotional UI components that boosted post-rebranding engagement, capturing a 22.5% increase in users and a 34.4% surge in user interactions, validated via GTM tracking.",
-            techStack: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "GSAP"],
+            techStack: [
+              "React.js",
+              "Next.js",
+              "TypeScript",
+              "Tailwind CSS",
+              "GSAP",
+            ],
             teamSize: 4,
             role: "Frontend Developer",
-            link: "https://asphaltlegends.com",
+            link: "https://test.com/al",
             responsitoryLink: undefined,
           },
           {
             name: "Personal Portfolio & Dev Toolset",
             description:
               "Established full-stack ownership using Next.js (Vercel), Strapi CMS (Render), and Supabase with automated GitHub Actions pipelines for code-free content updates. Implemented ISR and GraphQL parallel fetching (Promise.all) with silent mock fallbacks for zero downtime, secured by a lightweight, environment-driven passcode gate for private pages.",
-            techStack: ["Next.js (SSR · ISR)", "TypeScript", "GraphQL", "Strapi CMS", "Supabase", "Vercel", "Render.com", "Github Action", "Tailwind CSS"],
+            techStack: [
+              "Next.js (SSR · ISR)",
+              "TypeScript",
+              "GraphQL",
+              "Strapi CMS",
+              "Supabase",
+              "Vercel",
+              "Render.com",
+              "Github Action",
+              "Tailwind CSS",
+            ],
             role: "design, development, deployment",
-            link: "https://project-abyssoftime.vercel.app/en/cv/mjfppie0mk9ocdiqe0k9km09",
-            responsitoryLink: "https://github.com/hungnh1812dev/project-abyssoftime",
+            link: "https://test.com/portfolio",
+            responsitoryLink:
+              "https://github.com/test/test-portfolio-repository",
           },
         ],
       },
@@ -172,7 +232,10 @@ export const cvPageMock: CvPageQueryData = {
         name: "Languages",
         items: [
           { language: "Vietnamese", level: "Native" },
-          { language: "English", level: "Intermediate (effective communication at work)" },
+          {
+            language: "English",
+            level: "Intermediate (effective communication at work)",
+          },
         ],
       },
     },
