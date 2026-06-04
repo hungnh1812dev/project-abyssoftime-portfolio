@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import localAvatar from "@/assets/images/avatar.jpg";
+import localAvatar from "@/images/avatar.jpg";
 
 import type { CvContact, CvPage } from "../cv.types";
 
