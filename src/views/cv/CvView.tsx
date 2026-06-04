@@ -14,12 +14,13 @@ interface CvPageContentProps {
   data: CvPage;
   contact: CvContact;
   commonText: CommonText | null;
+  hideAvatar?: boolean;
 }
 
-export function CvView({ data, contact, commonText }: CvPageContentProps) {
+export function CvView({ data, contact, commonText, hideAvatar }: CvPageContentProps) {
   return (
     <div className={`relative mx-auto max-w-[800px] bg-background px-5 py-6 leading-normal text-foreground/90 sm:px-8 sm:py-8 ${styles.cvContainer}`}>
-      <CvHeader contact={contact} position={data.position} />
+      <CvHeader contact={contact} position={data.position} hideAvatar={hideAvatar} />
 
       {/* Anchor Navigation */}
       <nav className={`mb-3 hidden justify-center gap-5 text-xs font-medium uppercase tracking-wider text-foreground/45 sm:flex ${styles.printHide}`}>
