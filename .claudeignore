@@ -1,0 +1,4 @@
+# Environment files — contains secrets
+
+.env
+.env.\*

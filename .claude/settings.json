@@ -1,0 +1,52 @@
+{
+  "permissions": {
+    "allow": [],
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(**/*.p12)",
+      "Read(**/*.pfx)",
+      "Read(**/*.secret)",
+      "Read(**/secrets.*)"
+    ],
+    "additionalDirectories": ["/tmp"]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // empty' | { read -r f; [ -n \"$f\" ] && cd \"$(git rev-parse --show-toplevel)/application\" && npx prettier --write \"$f\" 2>/dev/null; } 2>/dev/null || true",
+            "statusMessage": "Formatting with prettier..."
+          },
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // empty' | { read -r f; case \"$f\" in *.ts|*.tsx) cd \"$(git rev-parse --show-toplevel)/application\" && out=$(npx tsc --noEmit 2>&1); code=$?; [ $code -ne 0 ] && printf '\\nType errors:\\n' && echo \"$out\" | head -30;; esac; } 2>/dev/null || true",
+            "statusMessage": "Type checking..."
+          },
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // empty' | { read -r f; [ -z \"$f\" ] && exit 0; case \"$f\" in *.md) exit 0;; esac; matches=$(grep -nE '/Users/[a-zA-Z0-9_.-]+/|/home/[a-zA-Z0-9_.-]+/' \"$f\" 2>/dev/null | head -3); [ -n \"$matches\" ] && printf '\\n⚠ Absolute path detected in %s:\\n%s\\nDung duong dan tuong doi hoac $(git rev-parse --show-toplevel) thay the.\\n' \"$f\" \"$matches\"; } 2>/dev/null || true",
+            "statusMessage": "Checking for absolute paths..."
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // empty' | { read -r f; case \"$f\" in */.env|*/.env.*|*.pem|*.key|*.p12|*.pfx|*.secret|*/secrets.*) echo \"BLOCKED: file nhay cam bi cam doc: $f\" >&2; exit 2;; esac; } 2>/dev/null || true",
+            "statusMessage": "Checking file access..."
+          }
+        ]
+      }
+    ]
+  }
+}
