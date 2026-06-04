@@ -14,9 +14,10 @@ project-abyssoftime/
 │   ├── app/          ← Next.js App Router
 │   ├── views/        ← Feature components (logic per page)
 │   ├── components/   ← Shared components (layouts, ui)
+│   ├── services/     ← Shared services used by 2+ pages (each in own subfolder)
 │   ├── lib/          ← Utilities & libraries
-│   ├── api/          ← Fetch wrapper with mock fallback
-│   ├── mocks/        ← Mock data (cv-page, oxford-3000)
+│   ├── api/          ← GraphQL & REST fetch wrappers with mock fallback
+│   ├── mocks/        ← Mock data (cv-page, cv-contact, common-text, ...)
 │   └── assets/       ← styles, images, favicon
 ├── e2e/              ← Playwright tests
 ├── package.json
@@ -81,8 +82,9 @@ bun run lint     # ESLint
 - **Routing**: All pages live under `app/[locale]/(main)/` — `[locale]` segment for i18n (`en`/`vi`)
 - **Styling**: Tailwind-first, use `cn()` (`clsx` + `twMerge`), HSL CSS variables
 - **Encryption**: AES-256 via `crypto-js`, random IV on each encrypt
-- **Mock fallback**: `api/fetchApi.ts` auto-falls back to `mocks/` if fetch fails
+- **Mock fallback**: `api/graphqlApi.ts` auto-falls back to `mocks/` if fetch fails
 - **Prettier**: Auto-format after each edit (PostToolUse hook)
+- **Services**: page-specific → co-locate in `views/<page>/`; shared (2+ pages) → `services/<name>/` subfolder with `<name>.types.ts`, `<name>.queries.ts`, `<name>.service.ts`
 
 ---
 

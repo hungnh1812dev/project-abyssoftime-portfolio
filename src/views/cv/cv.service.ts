@@ -1,6 +1,6 @@
 import graphqlApi from "@/api/graphqlApi";
-import { GET_MAIN_CV } from "./cv.queries";
-import type { CvPage, CvPageData } from "./cv.types";
+import { GET_MAIN_CV, GET_CONTACT } from "./cv.queries";
+import type { CvPage, CvPageData, CvContact, CvContactData } from "./cv.types";
 
 export async function getMainCv(): Promise<CvPage | null> {
   const data = await graphqlApi.query<CvPageData>({
@@ -10,4 +10,14 @@ export async function getMainCv(): Promise<CvPage | null> {
   });
 
   return data.cvPages?.[0] ?? null;
+}
+
+export async function getContact(): Promise<CvContact | null> {
+  const data = await graphqlApi.query<CvContactData>({
+    query: GET_CONTACT,
+    mock: "cv-contact",
+    next: { revalidate: 3600 },
+  });
+
+  return data.cvContact ?? null;
 }

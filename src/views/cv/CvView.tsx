@@ -1,4 +1,5 @@
-import type { CvPage } from "./cv.types";
+import type { CvPage, CvContact } from "./cv.types";
+import type { CommonText } from "@/services/common-text/common-text.types";
 import { CvHeader } from "./components/CvHeader";
 import { CvSummary } from "./components/CvSummary";
 import { CvSkills } from "./components/CvSkills";
@@ -10,13 +11,15 @@ import { CvPrintButton } from "./components/CvPrintButton";
 
 interface CvViewProps {
   cv: CvPage;
+  contact: CvContact;
+  commonText: CommonText | null;
 }
 
-export function CvView({ cv }: CvViewProps) {
+export function CvView({ cv, contact, commonText }: CvViewProps) {
   return (
     <div className="min-h-screen bg-white text-foreground dark:bg-background">
       <div className="mx-auto max-w-4xl px-8 py-10 print:px-0 print:py-0">
-        <CvHeader position={cv.position} />
+        <CvHeader contact={contact} position={cv.position} commonText={commonText} />
         <CvSummary summary={cv.summary} />
         <CvSkills skillSections={cv.skills} />
         <CvExperience experienceSections={cv.experiences} />

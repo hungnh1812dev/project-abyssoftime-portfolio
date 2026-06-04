@@ -75,6 +75,24 @@ export interface CvSummarySection {
   description: string;
 }
 
+export interface CvContactAvatar {
+  url: string;
+}
+
+export interface CvContact {
+  name: string;
+  location: string;
+  phone: string;
+  email: string;
+  linkedIn: string;
+  github: string;
+  avatar: CvContactAvatar | null;
+}
+
+export interface CvContactData {
+  cvContact: CvContact;
+}
+
 export interface CvPage {
   documentId: string;
   isMain: boolean;

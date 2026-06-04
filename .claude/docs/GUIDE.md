@@ -56,6 +56,19 @@ From the docs, you know the exact file paths → read directly, no need to scan 
 
 ---
 
+## After Completing a Task
+
+After any task that involves code changes, always run:
+
+```bash
+bun run lint       # ESLint check
+bunx tsc --noEmit  # TypeScript type check
+```
+
+Fix all errors before marking the task as done.
+
+---
+
 ## Token Optimization Tips
 
 1. **Don't read the whole codebase** — Only read files explicitly referenced in docs
