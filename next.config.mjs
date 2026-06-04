@@ -4,7 +4,6 @@ const withBundleAnalyzer = bundleAnalyzer({ enabled: process.env.ANALYZE === "tr
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
