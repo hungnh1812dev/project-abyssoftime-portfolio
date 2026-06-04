@@ -22,8 +22,9 @@ const nextConfig = {
     },
   },
 
-  // Moved from experimental.serverComponentsExternalPackages in Next.js 15+
-  serverExternalPackages: ["html-react-parser", "html-dom-parser", "domhandler", "htmlparser2", "isomorphic-dompurify", "jsdom"],
+  // Only list CJS-compatible packages here — ESM-only packages (domhandler, htmlparser2, etc.)
+  // must be bundled, not externalized, to avoid ERR_REQUIRE_ESM at runtime
+  serverExternalPackages: ["isomorphic-dompurify", "jsdom"],
 
   reactCompiler: true,
 };
