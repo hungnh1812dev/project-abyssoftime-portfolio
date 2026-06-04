@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { i18nMiddleware } from "./i18n";
 
-export function middleware(req: NextRequest): NextResponse {
+export function proxy(req: NextRequest): NextResponse {
   return i18nMiddleware(req) ?? NextResponse.next();
 }
 

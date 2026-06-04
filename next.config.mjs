@@ -17,17 +17,10 @@ const nextConfig = {
     },
   },
 
-  // Node.js 22 supports require(ESM) natively, so we externalize the entire
-  // html-react-parser → html-dom-parser → domhandler (ESM-only) chain on the
-  // server side instead of letting Next.js webpack try to bundle it.
-  experimental: {
-    serverComponentsExternalPackages: [
-      "html-react-parser",
-      "html-dom-parser",
-      "domhandler",
-      "htmlparser2",
-    ],
-  },
+  // Moved from experimental.serverComponentsExternalPackages in Next.js 15+
+  serverExternalPackages: ["html-react-parser", "html-dom-parser", "domhandler", "htmlparser2"],
+
+  reactCompiler: true,
 };
 
 export default nextConfig;
