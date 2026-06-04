@@ -4,6 +4,7 @@ const withBundleAnalyzer = bundleAnalyzer({ enabled: process.env.ANALYZE === "tr
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
@@ -22,7 +23,7 @@ const nextConfig = {
   },
 
   // Moved from experimental.serverComponentsExternalPackages in Next.js 15+
-  serverExternalPackages: ["html-react-parser", "html-dom-parser", "domhandler", "htmlparser2"],
+  serverExternalPackages: ["html-react-parser", "html-dom-parser", "domhandler", "htmlparser2", "isomorphic-dompurify", "jsdom"],
 
   reactCompiler: true,
 };
