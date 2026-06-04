@@ -1,4 +1,4 @@
-import { MockView } from '../mocks/mock-all';
+import { MockView } from "../mocks/mock-all";
 
 export interface GraphQLError {
   message: string;
@@ -27,9 +27,19 @@ const GRAPHQL_TOKEN = process.env.GRAPHQL_TOKEN;
 const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN;
 
 const graphqlQuery = async <T>(options: GraphQLQueryOptions): Promise<T> => {
-  const { query, variables, mock, dataKey, url = DEFAULT_URL, next, cache } = options;
+  const {
+    query,
+    variables,
+    mock,
+    dataKey,
+    url = DEFAULT_URL,
+    next,
+    cache,
+  } = options;
 
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
   const authToken = GRAPHQL_TOKEN ?? STRAPI_API_TOKEN;
   if (authToken) headers["Authorization"] = `Bearer ${authToken}`;
 
@@ -43,10 +53,12 @@ const graphqlQuery = async <T>(options: GraphQLQueryOptions): Promise<T> => {
     });
 
     if (res.ok) {
-      const json: { data?: Record<string, unknown>; errors?: GraphQLError[] } = await res.json();
+      const json: { data?: Record<string, unknown>; errors?: GraphQLError[] } =
+        await res.json();
       if (json.data && !json.errors?.length) {
         const result = dataKey ? json.data[dataKey] : json.data;
-        if (result != null && !(Array.isArray(result) && result.length === 0)) return result as T;
+        if (result != null && !(Array.isArray(result) && result.length === 0))
+          return result as T;
       }
 
       if (json.errors?.length && !mock) {

@@ -1,84 +1,3 @@
-export interface CvSkillItem {
-  name: string;
-  exp: string | null;
-}
-
-export interface CvSkillCategory {
-  category: string;
-  items: CvSkillItem[];
-}
-
-export interface CvSkillSection {
-  name: string;
-  items: CvSkillCategory[];
-}
-
-export interface CvRole {
-  position: string;
-  period: string;
-  responsibilities: string[];
-  techStack: string[];
-  projects: string[];
-}
-
-export interface CvExperienceItem {
-  company: string;
-  location: string;
-  roles: CvRole[];
-}
-
-export interface CvExperienceSection {
-  name: string;
-  items: CvExperienceItem[];
-}
-
-export interface CvProjectItem {
-  name: string;
-  description: string;
-  techStack: string[];
-  teamSize: string;
-  role: string;
-  link: string | null;
-  responsitoryLink: string | null;
-}
-
-export interface CvProjectSection {
-  name: string;
-  items: CvProjectItem[];
-}
-
-export interface CvEducationItem {
-  degree: string;
-  institution: string;
-  location: string;
-  period: string;
-  description: string | null;
-}
-
-export interface CvEducationSection {
-  name: string;
-  items: CvEducationItem[];
-}
-
-export interface CvLanguageItem {
-  language: string;
-  level: string;
-}
-
-export interface CvLanguageSection {
-  name: string;
-  items: CvLanguageItem[];
-}
-
-export interface CvSummarySection {
-  name: string;
-  description: string;
-}
-
-export interface CvContactAvatar {
-  url: string;
-}
-
 export interface CvContact {
   name: string;
   location: string;
@@ -86,11 +5,7 @@ export interface CvContact {
   email: string;
   linkedIn: string;
   github: string;
-  avatar: CvContactAvatar | null;
-}
-
-export interface CvContactData {
-  cvContact: CvContact;
+  avatar: { url: string } | null;
 }
 
 export interface CvPage {
@@ -98,14 +13,66 @@ export interface CvPage {
   isMain: boolean;
   companyName: string;
   position: string;
-  summary: CvSummarySection;
-  skills: CvSkillSection[];
-  experiences: CvExperienceSection[];
-  projects: CvProjectSection[];
-  education: CvEducationSection[];
-  languages: CvLanguageSection[];
+  summary: {
+    name: string;
+    description: string;
+  };
+  skills: {
+    name: string;
+    items: {
+      category: string;
+      items: { name: string; exp?: string }[];
+    }[];
+  };
+  experiences: {
+    name: string;
+    items: {
+      company: string;
+      location: string;
+      roles: {
+        position: string;
+        period: string;
+        responsibilities: string;
+        techStack?: string[];
+        projects?: string;
+      }[];
+    }[];
+  };
+  projects: {
+    name: string;
+    items: {
+      name: string;
+      description: string;
+      techStack: string[];
+      teamSize?: number;
+      role?: string;
+      link?: string;
+      responsitoryLink?: string;
+    }[];
+  };
+  education: {
+    name: string;
+    items: {
+      degree: string;
+      institution: string;
+      location: string;
+      period: string;
+      description: string;
+    }[];
+  };
+  languages: {
+    name: string;
+    items: {
+      language: string;
+      level: string;
+    }[];
+  };
 }
 
-export interface CvPageData {
+export interface CvPageQueryData {
   cvPages: CvPage[];
+}
+
+export interface CvContactData {
+  cvContact: CvContact;
 }

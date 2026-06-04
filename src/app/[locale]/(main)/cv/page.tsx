@@ -19,5 +19,5 @@ export default async function CvPage({ params }: BasePageProps) {
     );
   }
 
-  return <CvView cv={cv} contact={contact} commonText={commonText} />;
+  return <CvView data={cv} contact={contact} commonText={commonText} />;
 }

@@ -1,32 +1,47 @@
-import type { CvPage, CvContact } from "./cv.types";
 import type { CommonText } from "@/services/common-text/common-text.types";
-import { CvHeader } from "./components/CvHeader";
-import { CvSummary } from "./components/CvSummary";
-import { CvSkills } from "./components/CvSkills";
-import { CvExperience } from "./components/CvExperience";
-import { CvProjects } from "./components/CvProjects";
-import { CvEducation } from "./components/CvEducation";
-import { CvLanguages } from "./components/CvLanguages";
-import { CvPrintButton } from "./components/CvPrintButton";
+import type { CvContact, CvPage } from "./cv.types";
+import { CvSectionEducation } from "./education/CvSectionEducation";
+import { CvSectionExperience } from "./experience/CvSectionExperience";
+import { PrintButton } from "./footer/PrintButton";
+import { CvHeader } from "./header/CvHeader";
+import { CvSectionLanguages } from "./languages/CvSectionLanguages";
+import styles from "./CvPage.module.css";
+import { CvSectionProjects } from "./projects/CvSectionProjects";
+import { CvSectionSkills } from "./skills/CvSectionSkills";
+import { CvSectionSummary } from "./summary/CvSectionSummary";
 
-interface CvViewProps {
-  cv: CvPage;
+interface CvPageContentProps {
+  data: CvPage;
   contact: CvContact;
   commonText: CommonText | null;
 }
 
-export function CvView({ cv, contact, commonText }: CvViewProps) {
+export function CvView({ data, contact, commonText }: CvPageContentProps) {
   return (
-    <div className="min-h-screen bg-white text-foreground dark:bg-background">
-      <div className="mx-auto max-w-4xl px-8 py-10 print:px-0 print:py-0">
-        <CvHeader contact={contact} position={cv.position} commonText={commonText} />
-        <CvSummary summary={cv.summary} />
-        <CvSkills skillSections={cv.skills} />
-        <CvExperience experienceSections={cv.experiences} />
-        <CvProjects projectSections={cv.projects} />
-        <CvEducation educationSections={cv.education} />
-        <CvLanguages languageSections={cv.languages} />
-        <CvPrintButton />
+    <div className={`relative mx-auto max-w-[800px] bg-background px-5 py-6 leading-normal text-foreground/90 sm:px-8 sm:py-8 ${styles.cvContainer}`}>
+      <CvHeader contact={contact} position={data.position} />
+
+      {/* Anchor Navigation */}
+      <nav className={`mb-3 hidden justify-center gap-5 text-xs font-medium uppercase tracking-wider text-foreground/45 sm:flex ${styles.printHide}`}>
+        {["Summary", "Skills", "Experience", "Projects", "Education", "Languages"].map((s) => (
+          <a key={s} href={`#${s.toLowerCase()}`} className="transition-colors hover:text-foreground hover:underline">
+            {s}
+          </a>
+        ))}
+      </nav>
+
+      <div>
+        <CvSectionSummary summary={data.summary} />
+        <CvSectionSkills skills={data.skills} />
+        <CvSectionExperience experiences={data.experiences} commonText={commonText} />
+        <CvSectionProjects projects={data.projects} commonText={commonText} />
+        <CvSectionEducation education={data.education} />
+        <CvSectionLanguages languages={data.languages} />
+      </div>
+
+      {/* Action Bar */}
+      <div className={`mt-5 flex items-center justify-center gap-3 ${styles.printHide}`}>
+        <PrintButton />
       </div>
     </div>
   );
