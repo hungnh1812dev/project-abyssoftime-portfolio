@@ -1,11 +1,13 @@
-# ─── Testing (không cần khi deploy) ─────────────────────────────────────────
+# ─── Testing ─────────────────────────────────────────────────────────────────
 e2e/
 test-results/
 playwright-report/
 playwright.config.ts
-__mocks/
+vitest.config.ts
+__mocks__/
 coverage/
 */**/*.test.tsx
+*/**/*.test.ts
 
 # ─── TypeScript cache ─────────────────────────────────────────────────────────
 *.tsbuildinfo
@@ -13,10 +15,20 @@ coverage/
 # ─── Development config ───────────────────────────────────────────────────────
 .vscode/
 .claude/
+.claudeignore
+.github/
 
-# ─── Env files ────────────────────────────
+# ─── Docker ───────────────────────────────────────────────────────────────────
+Dockerfile
+.dockerignore
+
+# ─── Documentation ────────────────────────────────────────────────────────────
+README.md
+CLAUDE.md
+
+# ─── Env files ────────────────────────────────────────────────────────────────
 .env.local
 .env.*.local
 
-# ─── Local scripts files ────────────────────────────
+# ─── Local scripts ────────────────────────────────────────────────────────────
 scripts/
