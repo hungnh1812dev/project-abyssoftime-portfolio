@@ -5,6 +5,9 @@ on:
     branches:
       - develop
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 defaults:
   run:
     working-directory: .
@@ -20,6 +23,11 @@ jobs:
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
 
       - name: Cache Bun store
         uses: actions/cache@v4
