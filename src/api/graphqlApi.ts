@@ -1,4 +1,5 @@
 import { MockView } from "../mocks/mock-all";
+import restfulApi from "./restfulApi";
 
 export interface GraphQLError {
   message: string;
@@ -7,68 +8,64 @@ export interface GraphQLError {
   extensions?: Record<string, unknown>;
 }
 
-type NextFetchOptions = {
+export interface GraphQLOptions {
+  url?: string;
+  body: unknown;
+  headers?: Record<string, string>;
+  selectKey?: string;
+  mock?: string;
   next?: { revalidate?: number | false; tags?: string[] };
   cache?: RequestCache;
-};
-
-export interface GraphQLQueryOptions extends NextFetchOptions {
-  query: string;
-  variables?: Record<string, unknown>;
-  // Key in response.data to extract — e.g. "cvPage" → response.data.cvPage
-  // If omitted, returns response.data as-is
-  dataKey?: string;
-  mock?: string;
-  url?: string;
 }
 
 const DEFAULT_URL = process.env.GRAPHQL_URL ?? "http://localhost:5000/graphql";
 const GRAPHQL_TOKEN = process.env.GRAPHQL_TOKEN;
 const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN;
 
-const graphqlQuery = async <T>(options: GraphQLQueryOptions): Promise<T> => {
+const graphqlFetch = async <T>(options: GraphQLOptions): Promise<T> => {
   const {
-    query,
-    variables,
-    mock,
-    dataKey,
     url = DEFAULT_URL,
+    body,
+    headers = {},
+    selectKey,
+    mock,
     next,
     cache,
   } = options;
 
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
   const authToken = GRAPHQL_TOKEN ?? STRAPI_API_TOKEN;
-  if (authToken) headers["Authorization"] = `Bearer ${authToken}`;
+  const authHeaders: Record<string, string> = authToken
+    ? { Authorization: `Bearer ${authToken}` }
+    : {};
 
+  let json: { data?: Record<string, unknown>; errors?: GraphQLError[] };
   try {
-    const res = await fetch(url, {
+    json = await restfulApi.fetch<typeof json>({
+      url,
       method: "POST",
-      headers,
-      body: JSON.stringify({ query, variables }),
-      ...(next && { next }),
-      ...(cache && { cache }),
+      body,
+      headers: { ...authHeaders, ...headers },
+      next,
+      cache,
     });
-
-    if (res.ok) {
-      const json: { data?: Record<string, unknown>; errors?: GraphQLError[] } =
-        await res.json();
-      if (json.data && !json.errors?.length) {
-        const result = dataKey ? json.data[dataKey] : json.data;
-        if (result != null && !(Array.isArray(result) && result.length === 0))
-          return result as T;
-      }
-
-      if (json.errors?.length && !mock) {
-        const messages = json.errors.map((e) => e.message).join("; ");
-        throw new Error(`GraphQL errors: ${messages}`);
-      }
-    }
   } catch (err) {
-    if (!mock) throw err;
-    // Network / parse error — fall through to mock
+    if (mock) {
+      const data = MockView[mock];
+      if (data !== undefined) return data as T;
+    }
+    throw err;
+  }
+
+  if (json.data != null && !json.errors?.length) {
+    const result = selectKey ? json.data[selectKey] : json.data;
+    if (result != null && !(Array.isArray(result) && result.length === 0))
+      return result as T;
+  }
+
+  if (json.errors?.length && !mock) {
+    throw new Error(
+      `GraphQL errors: ${json.errors.map((e) => e.message).join("; ")}`,
+    );
   }
 
   if (mock) {
@@ -79,5 +76,5 @@ const graphqlQuery = async <T>(options: GraphQLQueryOptions): Promise<T> => {
   throw new Error(`GraphQL request failed for: ${url}`);
 };
 
-const graphqlApi = { query: graphqlQuery };
+const graphqlApi = { fetch: graphqlFetch };
 export default graphqlApi;
