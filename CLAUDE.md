@@ -1,3 +1,5 @@
+@AGENTS.md
+
 # CLAUDE.md
 
 Guidelines for Claude Code when working with this repo.

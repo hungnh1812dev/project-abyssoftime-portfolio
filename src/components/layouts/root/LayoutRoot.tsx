@@ -2,7 +2,6 @@ import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 import HtmlLocale from "@/components/html-locale/HtmlLocale";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +21,6 @@ export function LayoutRoot({ locale, children }: LayoutRootProps) {
         />
         <ThemeProvider>
           {children}
-          <ThemeToggle />
         </ThemeProvider>
       </body>
     </HtmlLocale>
