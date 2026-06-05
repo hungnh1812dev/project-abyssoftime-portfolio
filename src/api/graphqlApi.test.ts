@@ -1,13 +1,17 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import graphqlApi from "./graphqlApi";
 
-const QUERY = "{ items { id } }";
+const BODY = { query: "{ items { id } }" };
 
-function mockFetch(payload: { data?: unknown; errors?: { message: string }[] }, ok = true) {
+function mockFetch(
+  payload: { data?: unknown; errors?: { message: string }[] },
+  ok = true,
+) {
   vi.stubGlobal(
     "fetch",
     vi.fn().mockResolvedValue({
       ok,
+      status: ok ? 200 : 500,
       json: () => Promise.resolve(payload),
     }),
   );
@@ -22,22 +26,22 @@ afterEach(() => {
   vi.unstubAllEnvs();
 });
 
-describe("graphqlApi.query — success paths", () => {
-  it("returns full data object when no dataKey", async () => {
+describe("graphqlApi.fetch — success paths", () => {
+  it("returns full data object when no selectKey", async () => {
     mockFetch({ data: { items: [{ id: 1 }] } });
-    const result = await graphqlApi.query({ query: QUERY });
+    const result = await graphqlApi.fetch({ body: BODY });
     expect(result).toEqual({ items: [{ id: 1 }] });
   });
 
-  it("extracts dataKey when provided", async () => {
+  it("extracts selectKey when provided", async () => {
     mockFetch({ data: { items: [{ id: 1 }] } });
-    const result = await graphqlApi.query({ query: QUERY, dataKey: "items" });
+    const result = await graphqlApi.fetch({ body: BODY, selectKey: "items" });
     expect(result).toEqual([{ id: 1 }]);
   });
 
   it("sends POST with correct Content-Type header", async () => {
     mockFetch({ data: { x: 1 } });
-    await graphqlApi.query({ query: QUERY });
+    await graphqlApi.fetch({ body: BODY });
     const [, init] = (fetch as ReturnType<typeof vi.fn>).mock.calls[0];
     expect(init.method).toBe("POST");
     expect(init.headers["Content-Type"]).toBe("application/json");
@@ -48,7 +52,7 @@ describe("graphqlApi.query — success paths", () => {
     vi.resetModules();
     const { default: api } = await import("./graphqlApi");
     mockFetch({ data: { x: 1 } });
-    await api.query({ query: QUERY });
+    await api.fetch({ body: BODY });
     const [, init] = (fetch as ReturnType<typeof vi.fn>).mock.calls[0];
     expect(init.headers["Authorization"]).toBe("Bearer test-token");
     vi.resetModules();
@@ -56,87 +60,105 @@ describe("graphqlApi.query — success paths", () => {
 
   it("forwards next revalidate options to fetch", async () => {
     mockFetch({ data: { x: 1 } });
-    await graphqlApi.query({ query: QUERY, next: { revalidate: 300, tags: ["cv"] } });
+    await graphqlApi.fetch({
+      body: BODY,
+      next: { revalidate: 300, tags: ["cv"] },
+    });
     const [, init] = (fetch as ReturnType<typeof vi.fn>).mock.calls[0];
     expect(init.next).toEqual({ revalidate: 300, tags: ["cv"] });
   });
+
+  it("forwards cache option to fetch", async () => {
+    mockFetch({ data: { x: 1 } });
+    await graphqlApi.fetch({ body: BODY, cache: "no-store" });
+    const [, init] = (fetch as ReturnType<typeof vi.fn>).mock.calls[0];
+    expect(init.cache).toBe("no-store");
+  });
 });
 
-describe("graphqlApi.query — mock fallback", () => {
+describe("graphqlApi.fetch — mock fallback", () => {
   it("falls back to mock on network error", async () => {
     mockFetchThrow();
-    const result = await graphqlApi.query({ query: QUERY, mock: "cv-contact" });
+    const result = await graphqlApi.fetch({ body: BODY, mock: "cv-contact" });
     expect(result).toBeDefined();
   });
 
   it("falls back to mock when fetch response is not ok", async () => {
     mockFetch({ data: null }, false);
-    const result = await graphqlApi.query({ query: QUERY, mock: "cv-contact" });
+    const result = await graphqlApi.fetch({ body: BODY, mock: "cv-contact" });
     expect(result).toBeDefined();
   });
 
   it("falls back to mock when data is an empty array", async () => {
     mockFetch({ data: { items: [] } });
-    const result = await graphqlApi.query({ query: QUERY, dataKey: "items", mock: "cv-contact" });
+    const result = await graphqlApi.fetch({
+      body: BODY,
+      selectKey: "items",
+      mock: "cv-contact",
+    });
     expect(result).toBeDefined();
   });
 
   it("falls back to mock when GraphQL returns errors", async () => {
     mockFetch({ data: null, errors: [{ message: "Not found" }] });
-    const result = await graphqlApi.query({ query: QUERY, mock: "cv-contact" });
+    const result = await graphqlApi.fetch({ body: BODY, mock: "cv-contact" });
     expect(result).toBeDefined();
   });
 });
 
-describe("graphqlApi.query — error paths", () => {
+describe("graphqlApi.fetch — error paths", () => {
   it("throws on network error when no mock provided", async () => {
     mockFetchThrow(new Error("Network error"));
-    await expect(graphqlApi.query({ query: QUERY })).rejects.toThrow("Network error");
+    await expect(graphqlApi.fetch({ body: BODY })).rejects.toThrow(
+      "Network error",
+    );
   });
 
   it("throws GraphQL error messages when no mock provided", async () => {
-    mockFetch({ data: null, errors: [{ message: "Unauthorized" }, { message: "Not found" }] });
-    await expect(graphqlApi.query({ query: QUERY })).rejects.toThrow("Unauthorized; Not found");
+    mockFetch({
+      data: null,
+      errors: [{ message: "Unauthorized" }, { message: "Not found" }],
+    });
+    await expect(graphqlApi.fetch({ body: BODY })).rejects.toThrow(
+      "Unauthorized; Not found",
+    );
   });
 
   it("throws when mock key does not exist in MockView", async () => {
     mockFetchThrow();
-    await expect(graphqlApi.query({ query: QUERY, mock: "nonexistent-mock" })).rejects.toThrow();
+    await expect(
+      graphqlApi.fetch({ body: BODY, mock: "nonexistent-mock" }),
+    ).rejects.toThrow();
   });
 
   it("throws when res.ok is true but data is null and no mock provided", async () => {
     mockFetch({ data: null });
-    await expect(graphqlApi.query({ query: QUERY })).rejects.toThrow();
+    await expect(graphqlApi.fetch({ body: BODY })).rejects.toThrow();
   });
 
-  it("throws when dataKey resolves to null and no mock provided", async () => {
+  it("throws when selectKey resolves to null and no mock provided", async () => {
     mockFetch({ data: { items: null } });
-    await expect(graphqlApi.query({ query: QUERY, dataKey: "items" })).rejects.toThrow();
+    await expect(
+      graphqlApi.fetch({ body: BODY, selectKey: "items" }),
+    ).rejects.toThrow();
   });
 });
 
-describe("graphqlApi.query — request options", () => {
-  it("serializes variables into the request body", async () => {
+describe("graphqlApi.fetch — request options", () => {
+  it("serializes body into the request body", async () => {
     mockFetch({ data: { x: 1 } });
-    const variables = { id: 42, name: "test" };
-    await graphqlApi.query({ query: QUERY, variables });
+    const body = { query: "{ items { id } }", variables: { id: 42 } };
+    await graphqlApi.fetch({ body });
     const [, init] = (fetch as ReturnType<typeof vi.fn>).mock.calls[0];
-    expect(JSON.parse(init.body)).toMatchObject({ query: QUERY, variables });
+    expect(JSON.parse(init.body)).toMatchObject(body);
   });
 
   it("uses custom url when provided", async () => {
     mockFetch({ data: { x: 1 } });
     const customUrl = "https://custom.api/graphql";
-    await graphqlApi.query({ query: QUERY, url: customUrl });
+    await graphqlApi.fetch({ body: BODY, url: customUrl });
     const [url] = (fetch as ReturnType<typeof vi.fn>).mock.calls[0];
     expect(url).toBe(customUrl);
-  });
-
-  it("forwards cache option to fetch", async () => {
-    mockFetch({ data: { x: 1 } });
-    await graphqlApi.query({ query: QUERY, cache: "no-store" });
-    const [, init] = (fetch as ReturnType<typeof vi.fn>).mock.calls[0];
-    expect(init.cache).toBe("no-store");
   });
 
   it("sends Authorization header when STRAPI_API_TOKEN is set and GRAPHQL_TOKEN is absent", async () => {
@@ -144,17 +166,21 @@ describe("graphqlApi.query — request options", () => {
     vi.resetModules();
     const { default: api } = await import("./graphqlApi");
     mockFetch({ data: { x: 1 } });
-    await api.query({ query: QUERY });
+    await api.fetch({ body: BODY });
     const [, init] = (fetch as ReturnType<typeof vi.fn>).mock.calls[0];
     expect(init.headers["Authorization"]).toBe("Bearer strapi-token");
     vi.resetModules();
   });
 });
 
-describe("graphqlApi.query — mock not triggered", () => {
-  it("returns live data when res.ok is true and mock is provided but data is non-empty", async () => {
+describe("graphqlApi.fetch — mock not triggered", () => {
+  it("returns live data when res.ok and data is non-empty, even with mock provided", async () => {
     mockFetch({ data: { items: [{ id: 99 }] } });
-    const result = await graphqlApi.query({ query: QUERY, dataKey: "items", mock: "cv-contact" });
+    const result = await graphqlApi.fetch({
+      body: BODY,
+      selectKey: "items",
+      mock: "cv-contact",
+    });
     expect(result).toEqual([{ id: 99 }]);
   });
 });
