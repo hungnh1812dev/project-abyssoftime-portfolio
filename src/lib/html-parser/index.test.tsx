@@ -27,8 +27,8 @@ describe("HTMLParser", () => {
 
   it("strips dangerous event handler attributes", () => {
     const { container } = render(<HTMLParser content='<img src="x" onerror="alert(1)" />' />);
-    const img = container.querySelector("img");
-    expect(img?.getAttribute("onerror")).toBeNull();
+    // sanitize-html either strips the img entirely or removes the onerror attr — both are safe
+    expect(container.innerHTML).not.toContain("onerror");
   });
 
   it("wraps content in default div element", () => {
@@ -68,7 +68,7 @@ describe("HTMLParser", () => {
       <HTMLParser content='<a href="javascript:alert(1)">click</a>' />,
     );
     const anchor = container.querySelector("a");
-    // DOMPurify removes the href entirely — null or empty string, never "javascript:"
+    // sanitize-html removes the href entirely for disallowed protocols — null or empty string, never "javascript:"
     const href = anchor?.getAttribute("href") ?? "";
     expect(href).not.toMatch(/^javascript:/i);
   });
