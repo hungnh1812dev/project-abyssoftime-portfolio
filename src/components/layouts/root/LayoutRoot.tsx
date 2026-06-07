@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import HtmlLocale from "@/components/html-locale/HtmlLocale";
+import { HtmlLocaleSyncer } from "@/components/html-locale/HtmlLocaleSyncer";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,6 +24,7 @@ export function LayoutRoot({ locale, children }: LayoutRootProps) {
             __html: `try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark")}}catch(e){}`,
           }}
         />
+        <HtmlLocaleSyncer />
         <ThemeProvider>
           {children}
         </ThemeProvider>

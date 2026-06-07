@@ -13,5 +13,21 @@ export default defineConfig({
     css: {
       modules: { classNameStrategy: "non-scoped" },
     },
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "html"],
+      include: [
+        "src/lib/utils.ts",
+        "src/lib/function/regex.ts",
+        "src/lib/hooks/useLocale.ts",
+        "src/lib/external-link/ExternalLink.tsx",
+        "src/components/ui/PageEmptyState.tsx",
+        "src/components/ui/ThemeToggle.tsx",
+        "src/components/providers/ThemeProvider.tsx",
+      ],
+      thresholds: {
+        branches: 75,
+      },
+    },
   },
 });
