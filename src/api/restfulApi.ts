@@ -16,6 +16,8 @@ export interface RestOptions {
   cache?: RequestCache;
 }
 
+const isDev = process.env.NEXT_ENV !== "production";
+
 const restfulFetch = async <T>(options: RestOptions): Promise<T> => {
   const { url, method = "GET", body, headers, selectKey, mock, next, cache } =
     options;
@@ -56,8 +58,8 @@ const restfulFetch = async <T>(options: RestOptions): Promise<T> => {
   } catch (err) {
     // HTTP errors (ApiError with status) are not masked by mock
     if ((err as ApiError).status !== undefined) throw err;
-    // Network errors fall through to mock
-    if (mock) {
+    // Network errors fall through to mock (dev only)
+    if (isDev && mock) {
       const data = MockView[mock];
       if (data !== undefined) return data as T;
     }
@@ -65,7 +67,7 @@ const restfulFetch = async <T>(options: RestOptions): Promise<T> => {
   }
 
   // res.ok but result was null or empty array
-  if (mock) {
+  if (isDev && mock) {
     const data = MockView[mock];
     if (data !== undefined) return data as T;
   }
