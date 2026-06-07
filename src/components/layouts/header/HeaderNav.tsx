@@ -9,7 +9,7 @@ import { useTheme } from "@/components/providers/ThemeProvider";
 export function HeaderNav() {
   const { locale } = useParams<{ locale: string }>();
   const pathname = usePathname();
-  const { theme, toggle } = useTheme();
+  const { toggle } = useTheme();
 
   const altLocale = locale === "en" ? "vi" : "en";
   const altLocalePath = pathname
@@ -58,10 +58,10 @@ export function HeaderNav() {
         <button
           onClick={toggle}
           aria-label="Toggle theme"
-          suppressHydrationWarning
           className="rounded-md p-2 text-muted-foreground transition-colors hover:text-foreground"
         >
-          {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+          <Moon size={16} className="dark:hidden" />
+          <Sun size={16} className="hidden dark:block" />
         </button>
       </div>
     </header>

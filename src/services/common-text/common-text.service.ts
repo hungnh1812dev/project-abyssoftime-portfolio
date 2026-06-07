@@ -6,7 +6,7 @@ import type { CommonText, CommonTextData } from "./common-text.types";
 
 export const COMMON_TEXT_KEY = "common-text" as const;
 
-async function _fetchCommonText(params?: unknown): Promise<CommonText | null> {
+async function _fetchCommonText(): Promise<CommonText | null> {
   const data = await graphqlApi.fetch<CommonTextData>({
     body: { query: GET_COMMON_TEXT },
     mock: "common-text",
