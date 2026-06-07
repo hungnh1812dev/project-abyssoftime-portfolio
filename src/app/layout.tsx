@@ -6,6 +6,7 @@ import type { BaseLayoutProps } from "@/types/BasicType";
 export const metadata: Metadata = {
   title: { template: "%s | Abyssoftime", default: "Abyssoftime" },
   description: "Personal portfolio & CV of Nguyen Huy Hung",
+  robots: { index: false, follow: false },
 };
 
 export default async function RootLayout({ children, params }: BaseLayoutProps) {

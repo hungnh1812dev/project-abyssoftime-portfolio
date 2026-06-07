@@ -1,11 +1,16 @@
+import type { Metadata } from "next";
 import type { BasePageProps } from "@/types/BasicType";
+import { HomeView } from "@/views/home/HomeView";
+import { getHomeData } from "@/views/home/home.service";
+import { PageEmptyState } from "@/components/ui/PageEmptyState";
+
+export const metadata: Metadata = { title: "Home" };
 
 export default async function HomePage({ params }: BasePageProps) {
-  const { locale } = await params;
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-4 p-8">
-      <h1 className="text-4xl font-bold">Abyssoftime</h1>
-      <p className="text-muted-foreground">locale: {locale}</p>
-    </div>
-  );
+  const { locale = "en" } = await params;
+  const data = await getHomeData();
+
+  if (!data) return <PageEmptyState />;
+
+  return <HomeView data={data} locale={locale} />;
 }
