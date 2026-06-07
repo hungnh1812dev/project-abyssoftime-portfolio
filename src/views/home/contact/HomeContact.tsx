@@ -1,4 +1,6 @@
-import { ExternalLink, Mail } from "lucide-react";
+import { ExternalLink as ExternalLinkIcon, Mail } from "lucide-react";
+
+import UrlLink from "@/lib/external-link/ExternalLink";
 import type { Contact } from "@/services/contact/contact.types";
 
 interface HomeContactProps {
@@ -18,37 +20,33 @@ export function HomeContact({ contact, title }: HomeContactProps) {
 
           <div className="mt-8 flex flex-col items-center gap-4">
             {contact.email && (
-              <a
+              <UrlLink
                 href={`mailto:${contact.email}`}
                 className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-2.5 text-sm font-semibold text-background transition-opacity hover:opacity-80"
               >
                 <Mail aria-hidden="true" size={14} />
                 {contact.email}
-              </a>
+              </UrlLink>
             )}
 
             <div className="flex items-center gap-3">
               {contact.github && (
-                <a
+                <UrlLink
                   href={contact.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
                   GitHub
-                  <ExternalLink aria-hidden="true" size={12} />
-                </a>
+                  <ExternalLinkIcon aria-hidden="true" size={12} />
+                </UrlLink>
               )}
               {contact.linkedIn && (
-                <a
+                <UrlLink
                   href={contact.linkedIn}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
                   LinkedIn
-                  <ExternalLink aria-hidden="true" size={12} />
-                </a>
+                  <ExternalLinkIcon aria-hidden="true" size={12} />
+                </UrlLink>
               )}
             </div>
           </div>

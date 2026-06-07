@@ -1,5 +1,7 @@
 import Image from "next/image";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink as ExternalLinkIcon } from "lucide-react";
+
+import UrlLink from "@/lib/external-link/ExternalLink";
 import { cn } from "@/lib/utils";
 import type { PortfolioProject } from "../home.types";
 
@@ -36,15 +38,13 @@ function ProjectCard({ project, featured }: { project: PortfolioProject; feature
               </p>
             </div>
             {project.link && (
-              <a
+              <UrlLink
                 href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
                 aria-label={`View ${project.title}`}
                 className="shrink-0 rounded-md p-1.5 text-muted-foreground transition-colors hover:text-foreground"
               >
-                <ExternalLink size={16} />
-              </a>
+                <ExternalLinkIcon size={16} />
+              </UrlLink>
             )}
           </div>
 

@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronDown, ExternalLink, Mail, MapPin } from "lucide-react";
+import { ArrowRight, ChevronDown, ExternalLink as ExternalLinkIcon, Mail, MapPin } from "lucide-react";
 
+import UrlLink from "@/lib/external-link/ExternalLink";
 import localAvatar from "@/images/avatar.jpg";
 import type { Contact } from "@/services/contact/contact.types";
 import type { HomePageData } from "../home.types";
@@ -47,39 +48,35 @@ export function HomeHero({ page, contact, locale }: HomeHeroProps) {
 
             <div className="mt-5 flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground lg:justify-start">
               {contact.github && (
-                <a
+                <UrlLink
                   href={contact.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="flex items-center gap-1.5 transition-colors hover:text-foreground"
                 >
-                  <ExternalLink aria-hidden="true" size={13} />
+                  <ExternalLinkIcon aria-hidden="true" size={13} />
                   GitHub
-                </a>
+                </UrlLink>
               )}
               {contact.github && contact.linkedIn && <span className="text-border">·</span>}
               {contact.linkedIn && (
-                <a
+                <UrlLink
                   href={contact.linkedIn}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="flex items-center gap-1.5 transition-colors hover:text-foreground"
                 >
-                  <ExternalLink aria-hidden="true" size={13} />
+                  <ExternalLinkIcon aria-hidden="true" size={13} />
                   LinkedIn
-                </a>
+                </UrlLink>
               )}
               {(contact.github || contact.linkedIn) && contact.email && (
                 <span className="text-border">·</span>
               )}
               {contact.email && (
-                <a
+                <UrlLink
                   href={`mailto:${contact.email}`}
                   className="flex items-center gap-1.5 transition-colors hover:text-foreground"
                 >
                   <Mail aria-hidden="true" size={14} />
                   Email
-                </a>
+                </UrlLink>
               )}
             </div>
           </div>
