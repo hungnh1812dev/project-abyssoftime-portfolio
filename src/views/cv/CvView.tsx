@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import type { CommonText } from "@/services/common-text/common-text.types";
 import type { CvContact, CvPage } from "./cv.types";
 import { CvSectionEducation } from "./education/CvSectionEducation";
@@ -14,13 +16,14 @@ interface CvPageContentProps {
   data: CvPage;
   contact: CvContact;
   commonText: CommonText | null;
-  hideAvatar?: boolean;
 }
 
-export function CvView({ data, contact, commonText, hideAvatar }: CvPageContentProps) {
+export function CvView({ data, contact, commonText }: CvPageContentProps) {
   return (
     <div className={`relative mx-auto max-w-[800px] bg-background px-5 py-6 leading-normal text-foreground/90 sm:px-8 sm:py-8 ${styles.cvContainer}`}>
-      <CvHeader contact={contact} position={data.position} hideAvatar={hideAvatar} />
+      <Suspense>
+        <CvHeader contact={contact} position={data.position} />
+      </Suspense>
 
       {/* Anchor Navigation */}
       <nav className={`mb-3 hidden justify-center gap-5 text-xs font-medium uppercase tracking-wider text-foreground/45 sm:flex ${styles.printHide}`}>
