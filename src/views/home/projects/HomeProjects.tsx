@@ -81,7 +81,7 @@ function ProjectCard({ project, featured }: { project: PortfolioProject; feature
           )}
         >
           <p className="mb-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Outcomes</p>
-          <dl className="grid grid-cols-2 gap-4">
+          <dl aria-label="Outcomes" className="grid grid-cols-2 gap-4">
             {project.outcomes.map((outcome) => (
               <div key={outcome.label} className="flex flex-col">
                 <dt className="text-2xl font-bold tracking-tight">{outcome.value}</dt>
@@ -99,9 +99,9 @@ export function HomeProjects({ items, title }: HomeProjectsProps) {
   const [featured, ...rest] = items;
 
   return (
-    <section className="py-20 sm:py-24">
+    <section id="projects" aria-labelledby="projects-title" className="py-20 sm:py-24">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        <h2 className="mb-10 text-2xl font-semibold tracking-tight">{title}</h2>
+        <h2 id="projects-title" className="mb-10 text-2xl font-semibold tracking-tight">{title}</h2>
 
         <div className="flex flex-col gap-6">
           {featured && <ProjectCard project={featured} featured />}

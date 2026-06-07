@@ -8,10 +8,10 @@ interface HomeContactProps {
 
 export function HomeContact({ contact, title }: HomeContactProps) {
   return (
-    <section id="contact" className="border-t border-border/40 py-16 sm:py-24">
+    <section id="contact" aria-labelledby="contact-title" className="border-t border-border/40 py-16 sm:py-24">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <div className="rounded-2xl border border-border/60 bg-muted/30 px-6 py-14 text-center sm:px-12 sm:py-20">
-          <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">{title}</h2>
+          <h2 id="contact-title" className="text-2xl font-semibold tracking-tight sm:text-3xl">{title}</h2>
           <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
             Whether you have a project in mind, a role to fill, or just want to say hi — my inbox is always open.
           </p>
@@ -22,7 +22,7 @@ export function HomeContact({ contact, title }: HomeContactProps) {
                 href={`mailto:${contact.email}`}
                 className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-2.5 text-sm font-semibold text-background transition-opacity hover:opacity-80"
               >
-                <Mail size={14} />
+                <Mail aria-hidden="true" size={14} />
                 {contact.email}
               </a>
             )}
@@ -36,7 +36,7 @@ export function HomeContact({ contact, title }: HomeContactProps) {
                   className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
                   GitHub
-                  <ExternalLink size={12} />
+                  <ExternalLink aria-hidden="true" size={12} />
                 </a>
               )}
               {contact.linkedIn && (
@@ -47,7 +47,7 @@ export function HomeContact({ contact, title }: HomeContactProps) {
                   className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
                   LinkedIn
-                  <ExternalLink size={12} />
+                  <ExternalLink aria-hidden="true" size={12} />
                 </a>
               )}
             </div>

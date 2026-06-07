@@ -15,6 +15,8 @@ export function HomeImpact({ stats, title }: HomeImpactProps) {
     const container = scrollRef.current;
     if (!container) return;
 
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const id = setInterval(() => {
       const firstCard = container.firstElementChild as HTMLElement | null;
       if (!firstCard) return;
@@ -31,12 +33,13 @@ export function HomeImpact({ stats, title }: HomeImpactProps) {
   }, []);
 
   return (
-    <section id="impact" className="border-y border-border bg-muted/60 py-14 sm:py-16">
-      <p className="mb-8 px-4 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground sm:px-6">
+    <section id="impact" aria-labelledby="impact-title" className="border-y border-border bg-muted/60 py-14 sm:py-16">
+      <h2 id="impact-title" className="mb-8 px-4 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground sm:px-6">
         {title}
-      </p>
+      </h2>
       <dl
         ref={scrollRef}
+        aria-label="Impact statistics"
         className="flex justify-center gap-4 overflow-x-hidden px-4 sm:px-6"
       >
         {stats.map((stat) => (

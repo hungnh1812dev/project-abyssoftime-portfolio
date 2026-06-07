@@ -14,13 +14,13 @@ interface HomeHeroProps {
 
 export function HomeHero({ page, contact, locale }: HomeHeroProps) {
   return (
-    <section className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center">
+    <section id="hero" aria-label="Introduction" className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center">
       <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
         <div className="flex flex-col-reverse items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
           {/* Text */}
           <div className="text-center lg:max-w-[58%] lg:text-left">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted/50 px-3 py-1 text-xs font-medium text-muted-foreground">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-green-500" />
               Available for new projects
             </div>
 
@@ -31,7 +31,7 @@ export function HomeHero({ page, contact, locale }: HomeHeroProps) {
             </p>
 
             <div className="mt-3 flex items-center justify-center gap-1.5 text-sm text-muted-foreground/60 lg:justify-start">
-              <MapPin size={13} />
+              <MapPin aria-hidden="true" size={13} />
               <span>{contact.location}</span>
             </div>
 
@@ -41,7 +41,7 @@ export function HomeHero({ page, contact, locale }: HomeHeroProps) {
                 className="inline-flex items-center gap-2 rounded-lg bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-opacity hover:opacity-80"
               >
                 View CV
-                <ArrowRight size={14} />
+                <ArrowRight aria-hidden="true" size={14} />
               </Link>
             </div>
 
@@ -53,7 +53,7 @@ export function HomeHero({ page, contact, locale }: HomeHeroProps) {
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 transition-colors hover:text-foreground"
                 >
-                  <ExternalLink size={13} />
+                  <ExternalLink aria-hidden="true" size={13} />
                   GitHub
                 </a>
               )}
@@ -65,7 +65,7 @@ export function HomeHero({ page, contact, locale }: HomeHeroProps) {
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 transition-colors hover:text-foreground"
                 >
-                  <ExternalLink size={13} />
+                  <ExternalLink aria-hidden="true" size={13} />
                   LinkedIn
                 </a>
               )}
@@ -77,7 +77,7 @@ export function HomeHero({ page, contact, locale }: HomeHeroProps) {
                   href={`mailto:${contact.email}`}
                   className="flex items-center gap-1.5 transition-colors hover:text-foreground"
                 >
-                  <Mail size={14} />
+                  <Mail aria-hidden="true" size={14} />
                   Email
                 </a>
               )}

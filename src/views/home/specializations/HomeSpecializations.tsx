@@ -7,9 +7,9 @@ interface HomeSpecializationsProps {
 
 export function HomeSpecializations({ items, title }: HomeSpecializationsProps) {
   return (
-    <section className="border-t border-border/40 py-20 sm:py-24">
+    <section id="specializations" aria-labelledby="specializations-title" className="border-t border-border/40 py-20 sm:py-24">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        <h2 className="mb-10 text-2xl font-semibold tracking-tight">{title}</h2>
+        <h2 id="specializations-title" className="mb-10 text-2xl font-semibold tracking-tight">{title}</h2>
 
         <div className="grid gap-4 sm:grid-cols-2">
           {items.map((item) => (
