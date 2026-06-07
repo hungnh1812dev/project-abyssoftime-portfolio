@@ -1,5 +1,6 @@
-import { ExternalLink } from "lucide-react";
+import { ExternalLink as ExternalLinkIcon } from "lucide-react";
 
+import UrlLink from "@/lib/external-link/ExternalLink";
 import { HTMLParser } from "@/lib/html-parser";
 import type { CommonText } from "@/services/common-text/common-text.types";
 import type { CvPage } from "../cv.types";
@@ -23,22 +24,20 @@ export const CvSectionProjects = ({ projects, commonText }: CvSectionProjectsPro
               <div className="flex flex-wrap items-baseline gap-x-2">
                 <h4 className="text-sm font-bold">{project.name}</h4>
                 {project.link && (
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <UrlLink
                     href={project.link}
-                    className="inline-flex items-center gap-0.5 text-[10px] text-blue-600/70 hover:text-blue-600 hover:underline dark:text-blue-400/70 print:hidden">
-                    Live <ExternalLink className="h-2.5 w-2.5 shrink-0" />
-                  </a>
+                    className="inline-flex items-center gap-0.5 text-[10px] text-blue-600/70 hover:text-blue-600 hover:underline dark:text-blue-400/70 print:hidden"
+                  >
+                    Live <ExternalLinkIcon className="h-2.5 w-2.5 shrink-0" />
+                  </UrlLink>
                 )}
                 {project.responsitoryLink && (
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <UrlLink
                     href={project.responsitoryLink}
-                    className="inline-flex items-center gap-0.5 text-[10px] text-foreground/45 hover:text-foreground hover:underline print:hidden">
-                    GitHub <ExternalLink className="h-2.5 w-2.5 shrink-0" />
-                  </a>
+                    className="inline-flex items-center gap-0.5 text-[10px] text-foreground/45 hover:text-foreground hover:underline print:hidden"
+                  >
+                    GitHub <ExternalLinkIcon className="h-2.5 w-2.5 shrink-0" />
+                  </UrlLink>
                 )}
               </div>
               {(project.role || (project.teamSize && project.teamSize > 1)) && (

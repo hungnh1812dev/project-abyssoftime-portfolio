@@ -161,6 +161,17 @@ describe("restfulApi.fetch DELETE — success paths", () => {
   });
 });
 
+// ─── Timeout signal ───────────────────────────────────────────────────────────
+
+describe("restfulApi.fetch — timeout signal", () => {
+  it("attaches an AbortSignal to every fetch call", async () => {
+    mockFetch({});
+    await restfulApi.fetch({ url: URL });
+    const [, init] = (fetch as ReturnType<typeof vi.fn>).mock.calls[0];
+    expect(init.signal).toBeInstanceOf(AbortSignal);
+  });
+});
+
 // ─── Mock fallback ────────────────────────────────────────────────────────────
 
 describe("restfulApi.fetch — mock fallback", () => {

@@ -22,6 +22,8 @@ const DEFAULT_URL = process.env.GRAPHQL_URL ?? "http://localhost:5000/graphql";
 const GRAPHQL_TOKEN = process.env.GRAPHQL_TOKEN;
 const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN;
 
+const isDev = process.env.NEXT_ENV !== "production";
+
 const graphqlFetch = async <T>(options: GraphQLOptions): Promise<T> => {
   const {
     url = DEFAULT_URL,
@@ -49,7 +51,7 @@ const graphqlFetch = async <T>(options: GraphQLOptions): Promise<T> => {
       cache,
     });
   } catch (err) {
-    if (mock) {
+    if (isDev && mock) {
       const data = MockView[mock];
       if (data !== undefined) return data as T;
     }
@@ -68,7 +70,7 @@ const graphqlFetch = async <T>(options: GraphQLOptions): Promise<T> => {
     );
   }
 
-  if (mock) {
+  if (isDev && mock) {
     const data = MockView[mock];
     if (data !== undefined) return data as T;
   }

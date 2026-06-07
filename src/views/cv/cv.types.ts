@@ -1,12 +1,4 @@
-export interface CvContact {
-  name: string;
-  location: string;
-  phone: string;
-  email: string;
-  linkedIn: string;
-  github: string;
-  avatar: { url: string } | null;
-}
+export type { Contact as CvContact } from "@/services/contact/contact.types";
 
 export interface CvPage {
   documentId: string;
@@ -73,6 +65,4 @@ export interface CvPageQueryData {
   cvPages: CvPage[];
 }
 
-export interface CvContactData {
-  cvContact: CvContact;
-}
+export type { ContactData as CvContactData } from "@/services/contact/contact.types";
