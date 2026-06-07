@@ -25,6 +25,7 @@ const restfulFetch = async <T>(options: RestOptions): Promise<T> => {
   try {
     const res = await fetch(url, {
       method,
+      signal: AbortSignal.timeout(50_000),
       ...(body !== undefined && {
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json", ...headers },
