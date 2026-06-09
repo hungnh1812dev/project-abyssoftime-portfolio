@@ -55,12 +55,17 @@
     content: none;
   }
 
-  .cvContainer header a[href^="http"]::after {
-    content: attr(href);
+  .cvContainer header a[data-url] {
+    font-weight: 500;
+    color: #222;
+  }
+
+  .cvContainer header a[data-url]::after {
+    content: attr(data-url);
     display: block;
-    font-size: 0.78em;
-    color: #444;
+    font-size: 0.82em;
     font-weight: 400;
+    color: #555;
     margin-top: 1px;
   }
 }
